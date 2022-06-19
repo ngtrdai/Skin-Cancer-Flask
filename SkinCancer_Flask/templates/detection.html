@@ -1,0 +1,182 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+{% endblock head %}
+
+{% block content %}
+<header class="page-header page-header-compact page-header-light border-bottom bg-white mb-4">
+    <div class="container-fluid px-4">
+        <div class="page-header-content">
+            <div class="row align-items-center justify-content-between pt-3">
+                <div class="col-auto mb-3">
+                    <h1 class="page-header-title">
+                        <div class="page-header-icon"><i data-feather="user"></i></div>
+                        Nhận diện thông qua hình ảnh
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container-xl px-4 mt-4">
+    <div class="row">
+        <div class="col-xl-4">
+            <div class="card mb-4 mb-xl-0">
+                <div class="card-header">Tải lên hình ảnh</div>
+                <div class="card-body text-center">
+                    <img class="img-account-profile rounded-circle mb-2" id="display_image" src="../static/assets/img/logoHCMUTE.svg" alt="" />
+                    <div class="small font-italic text-muted mb-4">JPG hoặc PNG không lớn hơn 5 MB</div>
+                    <button class="btn btn-primary" type="button" id="upload_button">Tải ảnh lên</button>
+                    <form action="/" method="POST" enctype="multipart/form-data" id='form'>
+                        <input type="file" name="file" id="fileinput" accept="image/*" style="display:none">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-8">
+            <div class="card mb-4">
+                <form id="form_capnhat" method="post">
+                    <div class="card-header">Kết quả</div>
+                    <div class="card-body">
+                        <div class="row gx-3 mb-3">
+                            <div class="col-md-6">
+                                <h4 class="small">
+                                    Bệnh số 1
+                                    <span class="float-end fw-bold" id="kq_Text_1"></span>
+                                </h4>
+                                <div class="progress mb-4"><div class="progress-bar bg-danger" id="kq_1" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                <h4 class="small">
+                                    Bệnh số 2
+                                    <span class="float-end fw-bold" id="kq_Text_2"></span>
+                                </h4>
+                                <div class="progress mb-4"><div class="progress-bar bg-warning" id="kq_2" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                <h4 class="small">
+                                    Bệnh số 3
+                                    <span class="float-end fw-bold" id="kq_Text_3"></span>
+                                </h4>
+                                <div class="progress mb-4"><div class="progress-bar" id="kq_3" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                <h4 class="small">
+                                    Bệnh số 4
+                                    <span class="float-end fw-bold" id="kq_Text_4"></span>
+                                </h4>
+                                <div class="progress mb-4"><div class="progress-bar bg-info" id="kq_4" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                <h4 class="small">
+                                    Bệnh số 5
+                                    <span class="float-end fw-bold" id="kq_Text_5"></span>
+                                </h4>
+                                <div class="progress mb-4"><div class="progress-bar bg-info" id="kq_5" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                <h4 class="small">
+                                    Bệnh số 6
+                                    <span class="float-end fw-bold" id="kq_Text_6"></span>
+                                </h4>
+                                <div class="progress mb-4"><div class="progress-bar bg-info" id="kq_6" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
+                                <h4 class="small">
+                                    Bệnh số 7
+                                    <span class="float-end fw-bold" id="kq_Text_7"></span>
+                                </h4>
+                                <div class="progress"><div class="progress-bar bg-success" id="kq_7" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <img class="img-account-profile rounded-circle mb-2" src="../static/assets/img/logoHCMUTE.svg" alt="" />
+                                        <div class="small font-italic text-muted mb-4">TÊN BỆNH</div>
+                                        <button class="btn btn-primary" type="button">XEM THÔNG TIN</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script>
+    var model, ctx, canvas;
+    $("document").ready (async function() {
+        setupPage();
+        console.log('Load model');
+    });
+    
+    $("#upload_button").click(function() {
+        $("#fileinput").trigger('click');
+    });
+
+    $("#fileinput").change(function () {
+        let reader = new FileReader();
+        reader.onload = function () {
+            let dataURL = reader.result;
+
+            imEl = document.getElementById("display_image");
+            imEl.onload = function () {
+                renderPrediction();
+            }
+            $("#display_image").attr("src", dataURL);
+            $("#result_info").empty();
+        }
+        let file = $("#fileinput").prop("files")[0];
+        reader.readAsDataURL(file);
+    });
+
+    const state = {
+        backend: 'webgl'
+    }
+
+    const renderPrediction = async () => {
+        tf.engine().startScope();
+        // ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const offset = tf.scalar(255/2);
+        var image =  document.getElementById("display_image");
+        var inputImage = tf.browser.fromPixels(image).toFloat()
+        inputImage = inputImage.sub(offset).div(offset);
+        inputImage=inputImage.resizeBilinear([125,125]).reshape([1,125,125,3]);
+        result=model.predict(inputImage).dataSync();
+        result= Array.from(result);
+
+        document.getElementById("kq_Text_1").innerHTML = result[0].toFixed(2)*100 + "%";
+        document.getElementById("kq_1").style.width = result[0].toFixed(2)*100 + "%";
+
+        document.getElementById("kq_Text_2").innerHTML = result[1].toFixed(2)*100 + "%";
+        document.getElementById("kq_2").style.width = result[1].toFixed(2)*100 + "%";
+
+        document.getElementById("kq_Text_3").innerHTML = result[2].toFixed(2)*100 + "%";
+        document.getElementById("kq_3").style.width = result[2].toFixed(2)*100 + "%";
+
+        document.getElementById("kq_Text_4").innerHTML = result[3].toFixed(2)*100 + "%";
+        document.getElementById("kq_4").style.width = result[3].toFixed(2)*100 + "%";
+
+        document.getElementById("kq_Text_5").innerHTML = result[4].toFixed(2)*100 + "%";
+        document.getElementById("kq_5").style.width = result[4].toFixed(2)*100 + "%";
+
+        document.getElementById("kq_Text_6").innerHTML = result[5].toFixed(2)*100 + "%";
+        document.getElementById("kq_6").style.width = result[5].toFixed(2)*100 + "%";
+
+        document.getElementById("kq_Text_7").innerHTML = result[6].toFixed(2)*100 + "%";
+        document.getElementById("kq_7").style.width = result[6].toFixed(2)*100 + "%";
+        
+		//update frame
+		requestAnimationFrame(renderPrediction);
+		tf.engine().endScope()
+    }
+
+    const setupPage = async () => {
+	    await tf.setBackend(state.backend);
+
+	    // canvas = document.getElementById('output');
+	    // canvas.width = videoWidth;
+	    // canvas.height = videoHeight;
+	    // ctx = canvas.getContext('2d');
+	    // ctx.fillStyle = "rgba(255, 0, 0, 0.5)"; 
+	    
+	    model = await tf.loadLayersModel('../static/models/model.json');
+	   renderPrediction();
+	};
+
+	
+</script>
+{% endblock %}
