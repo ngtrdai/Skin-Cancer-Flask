@@ -10,6 +10,7 @@
 \usepackage[margin=2cm]{geometry}
 \usepackage{caption}
 \usepackage{subcaption}
+
 \usepackage{hyperref}
 \hypersetup{
 	colorlinks=true,
@@ -183,6 +184,14 @@
 		\end{tabular}
 	\captionof{table}{Tham số Data Augment}
 	\end{center}
+	\noindent
+	Với những tham số trên được cấu hình trong hàm \textbf{ImageDataGenerator()} của thư viện \textbf{Keras} thì ta được kết quả như ảnh dưới đây. Với cách làm này thì dữ liệu sẽ được làm giàu lên rất nhiều và cho hiệu suất tốt hơn là sử dụng một số thuật toán giúp tránh việc mất cân bằng khác như \textbf{OverSampling}.
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.5\linewidth]{./images/AnhLamGiau.png}
+		\caption{Một bức ảnh khi được làm giàu bằng các tham số trên}
+		\label{fig:AnhLamGiau}
+	\end{figure}
 	
 	\subsection{Cấu trúc mạng CNN}
 	
@@ -196,7 +205,10 @@
 	\end{figure}
 
 	\noindent
-	Ở đây mạng CNN đóng vai trò quan trọng trong việc trích xuất những đặc trưng của bức ảnh
+	Ở đây bức ảnh hoặc webcam của người dùng sẽ đưa vào mạng gọi chung \textit{\textbf{Input}} - là một bức ảnh, và bức ảnh này sẽ được thay đổi kích thước thành \textbf{125x125}, tiếp theo đó Input này sẽ được đưa vào các lớp trong mạng CNN và cuối cùng sẽ được đi vào các lớp ANN - các lớp được kết nối đầy đủ (Fully connected layer). Xác suất đầu ra cho tất cả các lớp sẽ được tính bằng hàm \textbf{Softmax} và lớp có xác suất cao nhất sẽ được hiển thị trên Website.\\
+	
+	\noindent
+	
 	
 	\subsection{Công cụ đánh giá mô hình}
 	
