@@ -9,6 +9,7 @@
 \usepackage[table,xcdraw]{xcolor}
 \usepackage[margin=2cm]{geometry}
 \usepackage{caption}
+\usepackage{subcaption}
 \usepackage{hyperref}
 \hypersetup{
 	colorlinks=true,
@@ -40,11 +41,11 @@
 }
 \newlength{\wlogo}
 
-\author{Nguyễn Trọng Đại}
+\author{Nguyễn Trọng Đại\\19146146}
 \date{} 
 \newcommand{\HCMUTE}{\normalsize\bfseries\itshape HCMC University of Technology and Education}
 \newcommand{\KHCMUTE}{\normalsize\bfseries\itshape Khoa Cơ khí Chế tạo máy}
-\newcommand{\oriart}{\normalsize\bfseries   BÀI BÁO }
+\newcommand{\oriart}{\includegraphics[width=\wlogo]{Images/githubQR.eps} \includegraphics[width=\wlogo]{Images/githubQR.eps}} 
 \setlength{\wlogo}{2.15cm}
 \newcommand{\LOGO}{\includegraphics[width=\wlogo]{Images/logo.png}}
 \newcommand{\titleofArt}{\textbf{ \large ỨNG DỤNG CNN NHẬN BIẾT 7 LOẠI BỆNH UNG THƯ DA QUA VIDEO}}
@@ -95,14 +96,33 @@
 	
 	\begin{figure}[h!]
 		\centering
-		\includegraphics[width=\linewidth]{./images/quatrinh.eps}
-		\caption{Phân bố dữ liệu tập HAM10000.}
+		\includegraphics[width=0.8\linewidth]{./images/quatrinh.eps}
+		\caption{Các bước thực hiện đề tài}
 		\label{fig:quatrinh}
 	\end{figure}
 	
 	\subsection{Tập dữ liệu HAM10000}
 	
-	HAM10000 là tập dữ liệu được sử dụng trong đề tài này là bộ dữ liệu được công khai bởi đại học Hardvard. Bộ dữ liệu bao gồm 10015 ảnh soi da để phục vụ tạo ra một tiêu chuẩn trong việc chẩn đoán các bệnh về tổn thương da.Tập dữ liệu HAM10000 được sử dụng trong cuộc thi ISIC 2018, trong tập dữ liệu có 7 lớp và 7 lớp này là 7 loại bệnh về tổn thương da cụ thể ở bảng dưới đây.
+	HAM10000 là tập dữ liệu được sử dụng trong đề tài này là bộ dữ liệu được công khai bởi đại học Hardvard. Bộ dữ liệu bao gồm 10015 ảnh soi da để phục vụ tạo ra một tiêu chuẩn trong việc chẩn đoán các bệnh về tổn thương da.Tập dữ liệu HAM10000 được sử dụng trong cuộc thi ISIC 2018, trong tập dữ liệu có 7 lớp và 7 lớp này là 7 loại bệnh về tổn thương da cụ thể ở bảng dưới đây.\\
+	
+	
+	\begin{figure}[h!]
+		\centering
+		\begin{subfigure}[b]{0.3\linewidth}
+			\includegraphics[width=\linewidth]{./images/nv.jpg}
+			\caption{Melanocytic nevi.}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.3\linewidth}
+			\includegraphics[width=\linewidth]{./images/akiec.jpg}
+			\caption{Benign keratosis-like.}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.3\linewidth}
+			\includegraphics[width=\linewidth]{./images/bkl.jpg}
+			\caption{Actinic keratoses.}
+		\end{subfigure}
+		\caption{Một vài hình ảnh trong tập HAM10000.}
+		\label{fig:motvaihinhanh}
+	\end{figure}
 	
 	\begin{center}
 		\begin{tabular}{|l|c|}
@@ -141,9 +161,28 @@
 	\captionof{table}{Số lượng ảnh trong tập dữ liệu HAM10000}
 	\end{center}
 	
+	\subsection{Tiền xử lý và làm giàu dữ liệu}
 	
+	Như đã trình bày ở phần trước thì tập HAM10000 bị tình trạng mất cân bằng rất lớn vì thế ở bước tiền xử lý dữ liệu tôi đã sử dụng phương pháp Data Augment nhằm mục đích làm giàu dữ liệu để cân bằng lại tập dữ liệu.\\
 	
-	\subsection{Tiền xử lý dữ liệu}
+	\noindent
+	Việc tăng cường dữ liệu (Data Augment) giúp cho tăng dữ liệu dựa trên các dữ liệu đã có mà không cần phải đi thu thập thêm, một số loại dữ liệu đặc thù rất khó thu thập. Và nó cực kỳ hữu ích cho tập dữ liệu HAM10000 khi tập này bị mất cân bằng rất lớn. Để làm giàu tập dữ liệu bằng việc tăng cường tôi thực hiện các tác động ví dụ như: xoay ảnh, phóng to ảnh, dịch trái, dịch phải ảnh... Và những tham số mà tôi sử dụng được trình bày ở bảng dưới đây.
+	
+	\begin{center}
+		\begin{tabular}{|l|c|l|}
+			\hline
+			\rowcolor[HTML]{000000} 
+			\multicolumn{1}{|c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} \textbf{Tham số}}} & {\color[HTML]{FFFFFF} \textbf{Giá trị}} & \multicolumn{1}{c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} \textbf{Mô tả}}} \\ \hline
+			Rotation range                                                                        & \textbf{180}                            & Cho phép xoay ảnh từ -180 đến 180 độ.                                              \\ \hline
+			Width shift range                                                                     & \textbf{0.1}                            & Dịch ảnh ngẫu nhiên theo phương ngang với giá trị là 0.1.                          \\ \hline
+			Height shift range                                                                    & \textbf{0.1}                            & Dịch ảnh ngẫu nhiên theo phương dọc với giá trị là 0.1.                            \\ \hline
+			Zoom range                                                                            & \textbf{0.1}                            & Phóng to hoặc thu nhỏ ảnh từ giữa ra với giá trị là 0.1.                           \\ \hline
+			Horizontal flip                                                                       & \textbf{True}                           & Lật ngẫu nhiên ảnh theo phương ngang.                                              \\ \hline
+			Vertical flip                                                                         & \textbf{True}                           & Lật ngẫu nhiên ảnh theo phương dọc.                                                \\ \hline
+			Fill mode                                                                             & \textbf{nearest}                        & Điền các giá trị trống vào các vị trí gần nhau.                                    \\ \hline
+		\end{tabular}
+	\captionof{table}{Tham số Data Augment}
+	\end{center}
 	
 	\subsection{Cấu trúc mạng CNN}
 	
