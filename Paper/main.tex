@@ -193,7 +193,7 @@
 		\label{fig:AnhLamGiau}
 	\end{figure}
 	
-	\subsection{Cấu trúc mạng CNN}
+	\subsection{Cấu trúc mạng CNN và huấn luyện mô hình}
 	
 	Nhưng tiêu đề của bài báo, tôi ứng dụng CNN trong việc xây dựng nên model, ảnh dưới đây thể hiện lưu đồ của mà đề tài tài này sẽ thực hiện khi có một bức ảnh hoặc một video (nhiều bức ảnh) khi đưa vào nhận diện.
 	
@@ -208,10 +208,65 @@
 	Ở đây bức ảnh hoặc webcam của người dùng sẽ đưa vào mạng gọi chung \textit{\textbf{Input}} - là một bức ảnh, và bức ảnh này sẽ được thay đổi kích thước thành \textbf{125x125}, tiếp theo đó Input này sẽ được đưa vào các lớp trong mạng CNN và cuối cùng sẽ được đi vào các lớp ANN - các lớp được kết nối đầy đủ (Fully connected layer). Xác suất đầu ra cho tất cả các lớp sẽ được tính bằng hàm \textbf{Softmax} và lớp có xác suất cao nhất sẽ được hiển thị trên Website.\\
 	
 	\noindent
+	Hình ảnh dưới đây là sơ đồ mạng Neural Network được tôi xây dựng:
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.8\linewidth]{./images/soDo_1.eps}
+		\caption{Sơ đồ mạng của đề tài.}
+		\label{fig:soDoMang}
+	\end{figure}
 	
+	\noindent
+	Với cấu trúc mạng trên tôi đã sử dụng ... lớp tích chập ...\\
+	
+	\noindent
+	Về huấn luyện (training) mô hình tôi chia tập dữ liệu HAM10000 ra theo tỉ lệ 80:20 với 80\% dùng cho traing và 20\% dùng cho testing và trong đó 15\% của dữ liệu training được dùng cho việc Validation. Với kích thước ảnh đầu vào là \textbf{125x125} và các nhãn được tôi dùng hàm \textbf{to\_categorical()} để đưa về dạng \textbf{One Hot Encoder} thích hợp trong việc huấn luyện mô hình về phân loại nhiều lớp cụ thể ở đây là 7 lớp.\\
+	
+	\noindent
+	Với hàm mất mát (\textbf{loss funtion}) tôi lựa chọn sử dụng hàm \textbf{Categorial crossentroy} rất thích hợp khi trước đó tôi đã One Hot Encoder nhãn cùng với đây là bài toán phân loại. Cùng với đó đối với hàm tối ưu (\textbf{optimers}) tôi lựa chọn sử dùng hàm \textbf{Adams} với \textit{learning rate} khởi tạo ban đầu là 0.001.
 	
 	\subsection{Công cụ đánh giá mô hình}
+	Có nhiều cách cũng như nhiều công cụ hay thuật toán dùng để đánh giá hiệu suất cũng như chất lương của mô hình đó. Ở đề tài nay tôi sử dụng những công cụ đánh giá rất phổ biến như: \textit{accuracy}, \textit{precision}, \textit{recall}, \textit{F1-Score}.\\
 	
+	\noindent
+	Accuracy (Độ chính xác): Độ chính ở đây biểu thị phần trăm lớp bệnh ung thư được phân loại chính xác, được tính bằng công thức dưới đây.
+	
+	\begin{equation}
+		accuracy = \frac{TP + TN}{TP + TN + FP + FN}\times 100
+	\end{equation}
+
+	\noindent
+	Precision: Được hiểu là phần trăm lớp bệnh ung thư dương tính thật (true positive) được nhận diện chính xác.
+	
+	\begin{equation}
+		precision = \frac{TP}{TP + FP}\times 100
+	\end{equation}
+
+	\noindent
+	Recall: Các điểm dương tính thật trong tất cả các dự đoán có thể là dương tính.
+	
+	\begin{equation}
+		recall = \frac{TP}{TP + FN}\times 100
+	\end{equation}
+
+	\noindent
+	F1-Score: Là sự đánh giá dựa trên cả Precision và Recall.
+	
+	\begin{equation}
+		F1-Score = 2\times\frac{precision\times recall}{precision + recall}
+	\end{equation}
+	
+	\subsection{Triển khai mô hình realtime lên website}
+	Triển khai mô hình (model) realtime lên website nhầm tạo ra điều kiện thuận lợi hơn với người sử dụng. Có rất nhiều sự lựa chọn Framework cũng như những ngôn ngữ Backend khác để xây dựng Webserver, với tôi thì do từng trải qua nhiều dự án với Flask Framework nên trong đề tài này tôi cũng sử dụng Flask kết hợp cùng với TensorflowJS một thư viện Javascript của chính chủ Google dành cho những lập trình viên muốn triển khai mô hình Tensorflow lên website.\\
+	
+	\noindent
+	Cấu trúc Website được tôi thiết kế với 3 chức năng chính: nhận diện realtime sử dụng Webcam hoặc camera, nhận diện thông qua ảnh nội soi tĩnh và chức năng còn lại là trang thông tin về các loại bệnh.\\
+	
+	\noindent
+	Nói về việc sử dụng dụng TensorflowJS, như trình bày ở phần 2.3 - Input đầu vào là một bức ảnh hoặc một video cụ thể là ảnh được lấy từ webcam hoặc ảnh từ người dùng tải lên. Với bức ảnh này sẽ được đưa về kích thước 125x125 theo chuẩn Tensor và đưa vào mô hình để nhận diện. Mô hình sẽ trả về xác suất của 7 lớp.
+	
+	\noindent
+	Đọc giả có thể xem tham khảo Source code tôi viết qua QR Code đường dẫn Github mà tôi gắn ở trang đầu bài báo.
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
 	\section{Kết quả}
@@ -219,4 +274,8 @@
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
 	\section{Kết luận}
+	Qua những kết quả trên tôi đưa ra kết luận cho bài báo này như sau, về cơ bản tôi đã xây dựng được mô hình sử dụng các lớp mạng CNN để phân loại mô hình, với tôi là một người chưa có nhiều kinh nghiệm vì thế mạng tôi xây dựng ra chưa đạt kết quả như mong đợi. Nếu có cơ hội được cải tiến đề tài này tôi có thể sử dụng một vài mạng được pretrained để nhằm mục đích trích xuất các đặc trưng của hình ảnh tốt hơn và cho kết quả nhận diện tốt hơn hiện tại.\\
+	
+	\noindent
+	Bên cạnh đó tôi đã triển khai được hệ thống nhận diện lâm sàng trực tuyến thông qua Website tại địa chỉ: \href{https://skincancer.svute.com}{https://skincancer.svute.com} tuy kết quả mô hình chưa được tốt nhưng sản phẩm có thể sử dụng ở mức độ tham khảo.
 \end{document}
