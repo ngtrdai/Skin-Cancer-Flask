@@ -49,7 +49,7 @@
 \newcommand{\oriart}{\includegraphics[width=\wlogo]{Images/githubQR.eps} \includegraphics[width=\wlogo]{Images/githubQR.eps}} 
 \setlength{\wlogo}{2.15cm}
 \newcommand{\LOGO}{\includegraphics[width=\wlogo]{Images/logo.png}}
-\newcommand{\titleofArt}{\textbf{ \large ỨNG DỤNG CNN NHẬN BIẾT 7 LOẠI BỆNH UNG THƯ DA QUA VIDEO}}
+\newcommand{\titleofArt}{\textbf{ \large ỨNG DỤNG CNN NHẬN BIẾT 7 LOẠI BỆNH UNG THƯ DA QUA HÌNH ẢNH VÀ VIDEO}}
 
 \begin{document}
 	\maketitle
@@ -73,7 +73,7 @@
 	\textit{Kết quả:} Tôi đã xây dựng được mạng CNN để sàn lọc với kết quả ..., recall ..., predict,... . Cùng với đó tôi đã xây dựng hệ thống Webserver nhận diện realtime trực tuyến tại đia chỉ: \href{https://skincancer.svute.com}{https://skincancer.svute.com}.\\
 	
 	\noindent
-	\textit{Kết luận:} Hi vọng với sản phẩm này có thể giúp người có nghi ngờ về bênh của mình có thể sử dụng để sàn lọc trước khi đến bệnh viện khám. Và giúp bác sĩ có thể sàn lọc bệnh nhân và giảm chi phí khám bệnh.
+	\textit{Kết luận:} Hi vọng với sản phẩm này có thể giúp người có nghi ngờ về bệnh của mình có thể sử dụng để sàn lọc trước khi đến bệnh viện khám. Và giúp bác sĩ có thể sàn lọc bệnh nhân và giảm chi phí khám bệnh.
 	
 	\hfill \break
 	\noindent
@@ -134,8 +134,8 @@
 			Basal cell carcinoma                                                                    & 1                                    \\ \hline
 			Benign keratosis-like lesions                                                           & 2                                    \\ \hline
 			Dermatofibroma                                                                          & 3                                    \\ \hline
-			Malignant Melanoma                                                                      & 4                                    \\ \hline
-			Melanocytic nevi                                                                        & 5                                    \\ \hline
+			Melanocytic nevi                                                                       & 4                                    \\ \hline
+			Malignant Melanoma                                                                        & 5                                    \\ \hline
 			Vascular lesions                                                                        & 6                                    \\ \hline
 		\end{tabular}
 	\captionof{table}{Phân lớp các loại bệnh trong tập dữ liệu HAM10000}
@@ -165,6 +165,19 @@
 	\subsection{Tiền xử lý và làm giàu dữ liệu}
 	
 	Như đã trình bày ở phần trước thì tập HAM10000 bị tình trạng mất cân bằng rất lớn vì thế ở bước tiền xử lý dữ liệu tôi đã sử dụng phương pháp Data Augment nhằm mục đích làm giàu dữ liệu để cân bằng lại tập dữ liệu.\\
+	
+	\noindent
+	Trước khi xử lý dữ liệu mất cân bằng bằng Data Augment thì tôi sẽ áp dụng thêm một phương pháp để tăng độ nhạy của mô hình đối với phân lớp gây mất cân bằng, cụ thể ở đây là lớp bênh \textit{"Melanocytic nevi"}.\\
+	
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|c|c|c|}
+			\hline
+			\rowcolor[HTML]{000000} 
+			{\color[HTML]{FFFFFF} \textbf{akiec}} & {\color[HTML]{FFFFFF} \textbf{bcc}} & {\color[HTML]{FFFFFF} \textbf{bkl}} & {\color[HTML]{FFFFFF} \textbf{df}} & \cellcolor[HTML]{FE0000}{\color[HTML]{FFFFFF} \textbf{nv}} & {\color[HTML]{FFFFFF} \textbf{mel}} & {\color[HTML]{FFFFFF} \textbf{vasc}} \\ \hline
+			\textbf{1.0}                          & \textbf{1.0}                        & \textbf{1.0}                        & \textbf{1.0}                       & \cellcolor[HTML]{F8FF00}\textbf{3.5}                       & \textbf{1.0}                        & \textbf{1.0}                         \\ \hline
+		\end{tabular}
+	\captionof{table}{Tỉ lệ trọng số (class weight) của các phân lớp}
+	\end{center}
 	
 	\noindent
 	Việc tăng cường dữ liệu (Data Augment) giúp cho tăng dữ liệu dựa trên các dữ liệu đã có mà không cần phải đi thu thập thêm, một số loại dữ liệu đặc thù rất khó thu thập. Và nó cực kỳ hữu ích cho tập dữ liệu HAM10000 khi tập này bị mất cân bằng rất lớn. Để làm giàu tập dữ liệu bằng việc tăng cường tôi thực hiện các tác động ví dụ như: xoay ảnh, phóng to ảnh, dịch trái, dịch phải ảnh... Và những tham số mà tôi sử dụng được trình bày ở bảng dưới đây.
@@ -211,7 +224,7 @@
 	Hình ảnh dưới đây là sơ đồ mạng Neural Network được tôi xây dựng:
 	\begin{figure}[h!]
 		\centering
-		\includegraphics[width=0.8\linewidth]{./images/soDo_1.eps}
+		\includegraphics[width=\linewidth]{./images/SoDoCNN.eps}
 		\caption{Sơ đồ mạng của đề tài.}
 		\label{fig:soDoMang}
 	\end{figure}

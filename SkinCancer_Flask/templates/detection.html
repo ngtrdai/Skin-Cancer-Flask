@@ -25,7 +25,6 @@
             <div class="card mb-4 mb-xl-0">
                 <div class="card-header">Tải lên hình ảnh</div>
                 <div class="card-body text-center">
-                    <img class="img-account-profile mb-2" id="display_image" src="../static/assets/img/logoHCMUTE.svg" alt="" />
                     <div class="small font-italic text-muted mb-4">JPG hoặc PNG không lớn hơn 5 MB</div>
                     <button class="btn btn-primary" type="button" id="upload_button">Tải ảnh lên</button>
                     <form action="/" method="POST" enctype="multipart/form-data" id='form'>
@@ -42,37 +41,37 @@
                         <div class="row gx-3 mb-3">
                             <div class="col-md-6">
                                 <h4 class="small">
-                                    Bệnh số 1
+                                    Actinic keratoses
                                     <span class="float-end fw-bold" id="kq_Text_1"></span>
                                 </h4>
                                 <div class="progress mb-4"><div class="progress-bar bg-danger" id="kq_1" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
                                 <h4 class="small">
-                                    Bệnh số 2
+                                    Basal cell carcinoma
                                     <span class="float-end fw-bold" id="kq_Text_2"></span>
                                 </h4>
                                 <div class="progress mb-4"><div class="progress-bar bg-warning" id="kq_2" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
                                 <h4 class="small">
-                                    Bệnh số 3
+                                    Benign keratosis-like lesions
                                     <span class="float-end fw-bold" id="kq_Text_3"></span>
                                 </h4>
                                 <div class="progress mb-4"><div class="progress-bar" id="kq_3" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
                                 <h4 class="small">
-                                    Bệnh số 4
+                                    Dermatofibroma
                                     <span class="float-end fw-bold" id="kq_Text_4"></span>
                                 </h4>
                                 <div class="progress mb-4"><div class="progress-bar bg-info" id="kq_4" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
                                 <h4 class="small">
-                                    Bệnh số 5
+                                    Melanocytic nevi
                                     <span class="float-end fw-bold" id="kq_Text_5"></span>
                                 </h4>
                                 <div class="progress mb-4"><div class="progress-bar bg-info" id="kq_5" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
                                 <h4 class="small">
-                                    Bệnh số 6
+                                    Malignant Melanoma
                                     <span class="float-end fw-bold" id="kq_Text_6"></span>
                                 </h4>
                                 <div class="progress mb-4"><div class="progress-bar bg-info" id="kq_6" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
                                 <h4 class="small">
-                                    Bệnh số 7
+                                    Vascular lesions
                                     <span class="float-end fw-bold" id="kq_Text_7"></span>
                                 </h4>
                                 <div class="progress"><div class="progress-bar bg-success" id="kq_7" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
@@ -80,8 +79,8 @@
                             <div class="col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center">
-                                        <img class="img-account-profile rounded-circle mb-2" src="../static/assets/img/logoHCMUTE.svg" alt="" />
-                                        <div class="small font-italic text-muted mb-4">TÊN BỆNH</div>
+                                        <img class="img-account-profile mb-2" id="display_image" alt="" />
+                                        <div class="small font-italic text-muted mb-4" id="tenBenh"></div>
                                         <button class="btn btn-primary" type="button">XEM THÔNG TIN</button>
                                     </div>
                                 </div>
@@ -158,6 +157,7 @@
 
         document.getElementById("kq_Text_7").innerHTML = result[6].toFixed(2)*100 + "%";
         document.getElementById("kq_7").style.width = result[6].toFixed(2)*100 + "%";
+        
         
 		//update frame
 		requestAnimationFrame(renderPrediction);
