@@ -1,0 +1,161 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+{% endblock head %}
+
+{% block content %}
+<header class="page-header page-header-compact page-header-light border-bottom bg-white mb-4">
+    <div class="container-fluid px-4">
+        <div class="page-header-content">
+            <div class="row align-items-center justify-content-between pt-3">
+                <div class="col-auto mb-3">
+                    <h1 class="page-header-title">
+                        <div class="page-header-icon"><i data-feather="user"></i></div>
+                        Nhận diện Realtime qua Camera
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container-xl px-4 mt-4">
+    <div class="row">
+        <div class="col-xl-4">
+            <div class="card mb-4 mb-xl-0">
+                <div class="card-header">Kết quả</div>
+                <div class="card-body">
+                    <h4 class="small">
+                        Actinic keratoses
+                        <span class="float-end fw-bold" id="kq_Text_1"></span>
+                    </h4>
+                    <div class="progress mb-4"><div class="progress-bar bg-danger" id="kq_1" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
+                    <h4 class="small">
+                        Basal cell carcinoma
+                        <span class="float-end fw-bold" id="kq_Text_2"></span>
+                    </h4>
+                    <div class="progress mb-4"><div class="progress-bar bg-warning" id="kq_2" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
+                    <h4 class="small">
+                        Benign keratosis-like lesions
+                        <span class="float-end fw-bold" id="kq_Text_3"></span>
+                    </h4>
+                    <div class="progress mb-4"><div class="progress-bar" id="kq_3" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
+                    <h4 class="small">
+                        Dermatofibroma
+                        <span class="float-end fw-bold" id="kq_Text_4"></span>
+                    </h4>
+                    <div class="progress mb-4"><div class="progress-bar bg-info" id="kq_4" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
+                    <h4 class="small">
+                        Melanocytic nevi
+                        <span class="float-end fw-bold" id="kq_Text_5"></span>
+                    </h4>
+                    <div class="progress mb-4"><div class="progress-bar bg-info" id="kq_5" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
+                    <h4 class="small">
+                        Malignant Melanoma
+                        <span class="float-end fw-bold" id="kq_Text_6"></span>
+                    </h4>
+                    <div class="progress mb-4"><div class="progress-bar bg-info" id="kq_6" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
+                    <h4 class="small">
+                        Vascular lesions
+                        <span class="float-end fw-bold" id="kq_Text_7"></span>
+                    </h4>
+                    <div class="progress"><div class="progress-bar bg-success" id="kq_7" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-8">
+            <div class="card mb-4">
+                <form id="form_capnhat" method="post">
+                    <div class="card-header">Webcam</div>
+                    <div class="card-body d-flex align-items-center justify-content-center">
+                        <video id="video" width="400" height="400" style="border-style: groove;"></video>
+                        <!-- <canvas id="output"></canvas> -->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script>
+    var model, ctx, canvas;
+    const video = document.getElementById("video");
+    const state = {
+        backend: 'webgl'
+    }
+
+    async function setupCamera(){
+        const stream = await navigator.mediaDevices.getUserMedia({
+            'audio': false,
+            'video': {facingMode: 'user'},
+        });
+        video.srcObject = stream;
+        return new Promise((resolve) => {
+            video.onloadedmetadata = () => {
+                resolve(video);
+            };
+        });
+    }
+
+    const renderPrediction = async () => {
+        tf.engine().startScope();
+        // ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const offset = tf.scalar(255/2);
+
+        var inputImage = tf.browser.fromPixels(video).toFloat()
+        inputImage = inputImage.sub(offset).div(offset);
+        inputImage=inputImage.resizeBilinear([100,100]).reshape([1,100,100,3]);
+        result=model.predict(inputImage).dataSync();
+        result= Array.from(result);
+
+        document.getElementById("kq_Text_1").innerHTML = result[0].toFixed(2)*100 + "%";
+        document.getElementById("kq_1").style.width = result[0].toFixed(2)*100 + "%";
+
+        document.getElementById("kq_Text_2").innerHTML = result[1].toFixed(2)*100 + "%";
+        document.getElementById("kq_2").style.width = result[1].toFixed(2)*100 + "%";
+
+        document.getElementById("kq_Text_3").innerHTML = result[2].toFixed(2)*100 + "%";
+        document.getElementById("kq_3").style.width = result[2].toFixed(2)*100 + "%";
+
+        document.getElementById("kq_Text_4").innerHTML = result[3].toFixed(2)*100 + "%";
+        document.getElementById("kq_4").style.width = result[3].toFixed(2)*100 + "%";
+
+        document.getElementById("kq_Text_5").innerHTML = result[4].toFixed(2)*100 + "%";
+        document.getElementById("kq_5").style.width = result[4].toFixed(2)*100 + "%";
+
+        document.getElementById("kq_Text_6").innerHTML = result[5].toFixed(2)*100 + "%";
+        document.getElementById("kq_6").style.width = result[5].toFixed(2)*100 + "%";
+
+        document.getElementById("kq_Text_7").innerHTML = result[6].toFixed(2)*100 + "%";
+        document.getElementById("kq_7").style.width = result[6].toFixed(2)*100 + "%";
+        
+		//update frame
+		requestAnimationFrame(renderPrediction);
+		tf.engine().endScope()
+    }
+
+    const setupPage = async () => {
+	    await tf.setBackend(state.backend);
+	    await setupCamera();
+	    video.play();
+
+	    videoWidth = video.videoWidth;
+	    videoHeight = video.videoHeight;
+	    video.width = videoWidth;
+	    video.height = videoHeight;
+
+	    // canvas = document.getElementById('output');
+	    // canvas.width = videoWidth;
+	    // canvas.height = videoHeight;
+	    // ctx = canvas.getContext('2d');
+	    // ctx.fillStyle = "rgba(255, 0, 0, 0.5)"; 
+	    
+	    model = await tf.loadLayersModel('../static/models/model.json');
+	   renderPrediction();
+	};
+
+	setupPage();
+</script>
+{% endblock %}

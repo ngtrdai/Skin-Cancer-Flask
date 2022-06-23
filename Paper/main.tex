@@ -42,11 +42,11 @@
 }
 \newlength{\wlogo}
 
-\author{Nguyễn Trọng Đại\\19146146}
+\author{Nguyễn Trọng Đại\\19146146\\TRÍ TUỆ NHÂN TẠO - LỚP 05CLC}
 \date{} 
 \newcommand{\HCMUTE}{\normalsize\bfseries\itshape HCMC University of Technology and Education}
 \newcommand{\KHCMUTE}{\normalsize\bfseries\itshape Khoa Cơ khí Chế tạo máy}
-\newcommand{\oriart}{\includegraphics[width=\wlogo]{Images/githubQR.eps} \includegraphics[width=\wlogo]{Images/githubQR.eps}} 
+\newcommand{\oriart}{\includegraphics[width=\wlogo]{Images/githubQR.eps} \includegraphics[width=\wlogo]{Images/kaggleQR.eps}} 
 \setlength{\wlogo}{2.15cm}
 \newcommand{\LOGO}{\includegraphics[width=\wlogo]{Images/logo.png}}
 \newcommand{\titleofArt}{\textbf{ \large ỨNG DỤNG CNN NHẬN BIẾT 7 LOẠI BỆNH UNG THƯ DA QUA HÌNH ẢNH VÀ VIDEO}}
@@ -70,7 +70,7 @@
 	\textit{Phương pháp:} Trong bài báo này tôi xây dựng mạng CNN có khả năng phân loại được 7 loại ung thư da với độ chính xác chấp nhận được, và tập dữ liệu mà tôi sử dụng là HAM10000. Và tôi sử dụng Framework Flask kết hợp cùng TensorflowJS để xây dựng ứng dụng nhận diện thông qua Website.\\
 	
 	\noindent
-	\textit{Kết quả:} Tôi đã xây dựng được mạng CNN để sàn lọc với kết quả ..., recall ..., predict,... . Cùng với đó tôi đã xây dựng hệ thống Webserver nhận diện realtime trực tuyến tại đia chỉ: \href{https://skincancer.svute.com}{https://skincancer.svute.com}.\\
+	\textit{Kết quả:} Tôi đã xây dựng được mạng CNN để sàn lọc với kết quả accuracy = 77\%, recall = 46\%, precision = 59\%. Cùng với đó tôi đã xây dựng hệ thống Webserver nhận diện realtime trực tuyến tại đia chỉ: \href{https://skincancer.svute.com}{https://skincancer.svute.com}.\\
 	
 	\noindent
 	\textit{Kết luận:} Hi vọng với sản phẩm này có thể giúp người có nghi ngờ về bệnh của mình có thể sử dụng để sàn lọc trước khi đến bệnh viện khám. Và giúp bác sĩ có thể sàn lọc bệnh nhân và giảm chi phí khám bệnh.
@@ -84,7 +84,7 @@
 	Ung thư da là một trong những bệnh rất phổ biến trên thế giới, cụ thể ở Mỹ mỗi năm có hơn 5 triệu ca mắc phải, mỗi năm có hơn 9000 người chết vì ung thư da. Điều trị ung thư da tốn chi phí rất lớn. Vì thế ung thư da trở thành một mối đe doạ lớn đến với cộng đồng. Tỉ lệ mắc ung thư da đã tăng lên hằng năm là một điều rất đáng báo động.\\
 	
 	\noindent
-	Trước đây ung thư da được chuẩn đoán lâm sàng và không có bất kỳ sự hỗ trợ nào, và được đánh giá bằng mức độ kinh nghiệm của người bác sĩ. Điều này dẫn đến thiếu sự chính xác trong chuẩn đoán. Trong những năm gần đây thì kỹ thuật nội soi đã bắt đầu phát triển và được ứng dụng vào  trong việc chẩn đoán bệnh của bác sĩ.\\
+	Trước đây ung thư da được chẩn đoán lâm sàng và không có bất kỳ sự hỗ trợ nào, và được đánh giá bằng mức độ kinh nghiệm của người bác sĩ. Điều này dẫn đến thiếu sự chính xác trong chẩn đoán. Trong những năm gần đây thì kỹ thuật nội soi đã bắt đầu phát triển và được ứng dụng vào  trong việc chẩn đoán bệnh của bác sĩ.\\
 	
 	\noindent
 	Với những lý do trên cùng với sự phát triển của kỹ thuật nội soi đã cho chúng ta một tập dữ liệu về tổn thương da, cùng với đó là sự phát triển của AI và Deep learning chúng ta có thể tạo ra một mô hình chẩn đoán lâm sàng. Vì thế trong bài báo này tôi sẽ ứng dụng "mạng thần kinh tích chập" - CNN nhầm mục đích tạo ra một mô hình chẩn đoán và tạo ra một môi trường Realtime cho mọi người có thể vào và chẩn đoán lâm sàng.
@@ -142,7 +142,7 @@
 	\end{center}
 
 	\noindent
-	Tập dữ liệu HAM10000 bị vấn đề về mất cân bằng dữ liệu như hình dưới đây, trong tập dữ liệu này số lượng ảnh về bệnh "Melanocytic nevi" chiếm số lương rất lớn\\	
+	Tập dữ liệu HAM10000 bị vấn đề về mất cân bằng dữ liệu như hình dưới đây, trong tập dữ liệu này số lượng ảnh về bệnh "Melanocytic nevi" chiếm số lượng rất lớn\\	
 	
 	
 	\begin{figure}[h!]
@@ -174,7 +174,7 @@
 			\hline
 			\rowcolor[HTML]{000000} 
 			{\color[HTML]{FFFFFF} \textbf{akiec}} & {\color[HTML]{FFFFFF} \textbf{bcc}} & {\color[HTML]{FFFFFF} \textbf{bkl}} & {\color[HTML]{FFFFFF} \textbf{df}} & \cellcolor[HTML]{FE0000}{\color[HTML]{FFFFFF} \textbf{nv}} & {\color[HTML]{FFFFFF} \textbf{mel}} & {\color[HTML]{FFFFFF} \textbf{vasc}} \\ \hline
-			\textbf{1.0}                          & \textbf{1.0}                        & \textbf{1.0}                        & \textbf{1.0}                       & \cellcolor[HTML]{F8FF00}\textbf{3.5}                       & \textbf{1.0}                        & \textbf{1.0}                         \\ \hline
+			\textbf{1.0}                          & \textbf{1.0}                        & \textbf{1.0}                        & \textbf{1.0}                       & \cellcolor[HTML]{F8FF00}\textbf{2.5}                       & \textbf{1.0}                        & \textbf{1.0}                         \\ \hline
 		\end{tabular}
 	\captionof{table}{Tỉ lệ trọng số (class weight) của các phân lớp}
 	\end{center}
@@ -187,10 +187,10 @@
 			\hline
 			\rowcolor[HTML]{000000} 
 			\multicolumn{1}{|c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} \textbf{Tham số}}} & {\color[HTML]{FFFFFF} \textbf{Giá trị}} & \multicolumn{1}{c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} \textbf{Mô tả}}} \\ \hline
-			Rotation range                                                                        & \textbf{180}                            & Cho phép xoay ảnh từ -180 đến 180 độ.                                              \\ \hline
-			Width shift range                                                                     & \textbf{0.1}                            & Dịch ảnh ngẫu nhiên theo phương ngang với giá trị là 0.1.                          \\ \hline
-			Height shift range                                                                    & \textbf{0.1}                            & Dịch ảnh ngẫu nhiên theo phương dọc với giá trị là 0.1.                            \\ \hline
-			Zoom range                                                                            & \textbf{0.1}                            & Phóng to hoặc thu nhỏ ảnh từ giữa ra với giá trị là 0.1.                           \\ \hline
+			Rotation range                                                                        & \textbf{40}                            & Cho phép xoay ảnh từ -40 đến 40 độ.                                              \\ \hline
+			Width shift range                                                                     & \textbf{0.2}                            & Dịch ảnh ngẫu nhiên theo phương ngang với giá trị là 0.2.                          \\ \hline
+			Height shift range                                                                    & \textbf{0.2}                            & Dịch ảnh ngẫu nhiên theo phương dọc với giá trị là 0.2.                            \\ \hline
+			Zoom range                                                                            & \textbf{0.2}                            & Phóng to hoặc thu nhỏ ảnh từ giữa ra với giá trị là 0.2.                           \\ \hline
 			Horizontal flip                                                                       & \textbf{True}                           & Lật ngẫu nhiên ảnh theo phương ngang.                                              \\ \hline
 			Vertical flip                                                                         & \textbf{True}                           & Lật ngẫu nhiên ảnh theo phương dọc.                                                \\ \hline
 			Fill mode                                                                             & \textbf{nearest}                        & Điền các giá trị trống vào các vị trí gần nhau.                                    \\ \hline
@@ -218,25 +218,30 @@
 	\end{figure}
 
 	\noindent
-	Ở đây bức ảnh hoặc webcam của người dùng sẽ đưa vào mạng gọi chung \textit{\textbf{Input}} - là một bức ảnh, và bức ảnh này sẽ được thay đổi kích thước thành \textbf{125x125}, tiếp theo đó Input này sẽ được đưa vào các lớp trong mạng CNN và cuối cùng sẽ được đi vào các lớp ANN - các lớp được kết nối đầy đủ (Fully connected layer). Xác suất đầu ra cho tất cả các lớp sẽ được tính bằng hàm \textbf{Softmax} và lớp có xác suất cao nhất sẽ được hiển thị trên Website.\\
+	Ở đây bức ảnh hoặc webcam của người dùng sẽ đưa vào mạng gọi chung \textit{\textbf{Input}} - là một bức ảnh, và bức ảnh này sẽ được thay đổi kích thước thành \textbf{100x100}, tiếp theo đó Input này sẽ được đưa vào các lớp trong mạng CNN và cuối cùng sẽ được đi vào các lớp ANN - các lớp được kết nối đầy đủ (Fully connected layer). Xác suất đầu ra cho tất cả các lớp sẽ được tính bằng hàm \textbf{Softmax} và lớp có xác suất cao nhất sẽ được hiển thị trên Website.\\
 	
 	\noindent
 	Hình ảnh dưới đây là sơ đồ mạng Neural Network được tôi xây dựng:
 	\begin{figure}[h!]
 		\centering
-		\includegraphics[width=\linewidth]{./images/SoDoCNN.eps}
+		\includegraphics[width=0.8\linewidth]{./images/SoDoCNN.eps}
 		\caption{Sơ đồ mạng của đề tài.}
 		\label{fig:soDoMang}
 	\end{figure}
 	
 	\noindent
-	Với cấu trúc mạng trên tôi đã sử dụng ... lớp tích chập ...\\
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.35\linewidth]{./images/cautrucmang.png}
+		\caption{Cấu trúc mạng đề tài.}
+		\label{fig:cauTrucMang}
+	\end{figure}
 	
 	\noindent
-	Về huấn luyện (training) mô hình tôi chia tập dữ liệu HAM10000 ra theo tỉ lệ 80:20 với 80\% dùng cho traing và 20\% dùng cho testing và trong đó 15\% của dữ liệu training được dùng cho việc Validation. Với kích thước ảnh đầu vào là \textbf{125x125} và các nhãn được tôi dùng hàm \textbf{to\_categorical()} để đưa về dạng \textbf{One Hot Encoder} thích hợp trong việc huấn luyện mô hình về phân loại nhiều lớp cụ thể ở đây là 7 lớp.\\
+	Về huấn luyện (training) mô hình tôi chia tập dữ liệu HAM10000 ra theo tỉ lệ 80:20 với 80\% dùng cho traing và 20\% dùng cho testing và trong đó 15\% của dữ liệu training được dùng cho việc Validation. Với kích thước ảnh đầu vào là \textbf{100x100} và các nhãn được tôi dùng hàm \textbf{to\_categorical()} để đưa về dạng \textbf{One Hot Encoder} thích hợp trong việc huấn luyện mô hình về phân loại nhiều lớp cụ thể ở đây là 7 lớp.\\
 	
 	\noindent
-	Với hàm mất mát (\textbf{loss funtion}) tôi lựa chọn sử dụng hàm \textbf{Categorial crossentroy} rất thích hợp khi trước đó tôi đã One Hot Encoder nhãn cùng với đây là bài toán phân loại. Cùng với đó đối với hàm tối ưu (\textbf{optimers}) tôi lựa chọn sử dùng hàm \textbf{Adams} với \textit{learning rate} khởi tạo ban đầu là 0.001.
+	Với hàm mất mát (\textbf{loss funtion}) tôi lựa chọn sử dụng hàm \textbf{Categorial crossentroy} rất thích hợp khi trước đó tôi đã One Hot Encoder nhãn cùng với đây là bài toán phân loại. Cùng với đó đối với hàm tối ưu (\textbf{optimers}) tôi lựa chọn sử dùng hàm \textbf{Adams} với \textit{learning rate} khởi tạo ban đầu là 0.0001.
 	
 	\subsection{Công cụ đánh giá mô hình}
 	Có nhiều cách cũng như nhiều công cụ hay thuật toán dùng để đánh giá hiệu suất cũng như chất lương của mô hình đó. Ở đề tài nay tôi sử dụng những công cụ đánh giá rất phổ biến như: \textit{accuracy}, \textit{precision}, \textit{recall}, \textit{F1-Score}.\\
@@ -276,19 +281,99 @@
 	Cấu trúc Website được tôi thiết kế với 3 chức năng chính: nhận diện realtime sử dụng Webcam hoặc camera, nhận diện thông qua ảnh nội soi tĩnh và chức năng còn lại là trang thông tin về các loại bệnh.\\
 	
 	\noindent
-	Nói về việc sử dụng dụng TensorflowJS, như trình bày ở phần 2.3 - Input đầu vào là một bức ảnh hoặc một video cụ thể là ảnh được lấy từ webcam hoặc ảnh từ người dùng tải lên. Với bức ảnh này sẽ được đưa về kích thước 125x125 theo chuẩn Tensor và đưa vào mô hình để nhận diện. Mô hình sẽ trả về xác suất của 7 lớp.
+	Nói về việc sử dụng dụng TensorflowJS, như trình bày ở phần 2.3 - Input đầu vào là một bức ảnh hoặc một video cụ thể là ảnh được lấy từ webcam hoặc ảnh từ người dùng tải lên. Với bức ảnh này sẽ được đưa về kích thước 100x100 theo chuẩn Tensor và đưa vào mô hình để nhận diện. Mô hình sẽ trả về xác suất của 7 lớp.
 	
 	\noindent
 	Đọc giả có thể xem tham khảo Source code tôi viết qua QR Code đường dẫn Github mà tôi gắn ở trang đầu bài báo.
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
 	\section{Kết quả}
+	Từ những phương pháp đã trình bày ở trên trải qua quá trình training và turning mô hình thì tôi đạt được kết quả như sau. Sơ đồ dưới đây là kết quả của quá trình traning.
 	
+	\begin{figure}[h!]
+		\centering
+		\begin{subfigure}[b]{0.4\linewidth}
+			\includegraphics[width=\linewidth]{./images/accuracy.png}
+			\caption{Đồ thị về accuracy.}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.4\linewidth}
+			\includegraphics[width=\linewidth]{./images/loss.png}
+			\caption{Đồ thị về loss.}
+		\end{subfigure}
+		\caption{Kết quả của mô hình.}
+		\label{fig:ketQua}
+	\end{figure}
+	
+	\begin{figure}[h!]
+		\centering
+		\begin{subfigure}[b]{0.45\linewidth}
+			\includegraphics[width=\linewidth]{./images/confusion.png}
+		\end{subfigure}
+		\caption{Confusion matrix của mô hình trên tập test.}
+		\label{fig:conMatrix}
+	\end{figure}
+	
+	\noindent
+	Kết quả đánh giá mô hình dựa trên những phương pháp đánh giá đã trình bày phần trước ở bản dưới đây.
+	
+	\begin{center}
+		\begin{tabular}{|l|c|}
+			\hline
+			\rowcolor[HTML]{000000} 
+			\multicolumn{1}{|c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} \textbf{Thước đo}}} & {\color[HTML]{FFFFFF} \textbf{Kết quả}} \\ \hline
+			\textbf{Accuracy (\%)}                                                                 & 77.00\%                                 \\ \hline
+			\textbf{Precision (\%)}                                                                & 59.00\%                                 \\ \hline
+			\textbf{Recall (\%)}                                                                   & 46.00\%                                 \\ \hline
+			\textbf{F1-score (\%)}                                                                 & 50.00\%                                 \\ \hline
+		\end{tabular}
+	\captionof{table}{Kết quả đánh giá mô hình.}
+	\end{center}
+	
+	Sau khi có được mô hình, tôi sử dụng TensorflowJS để chuyển đổi file MODEL.H5 sang file nhị phân để sử dụng trên TensorflowJS. Kết hợp với backend là Flask Framework tôi đã triển khai mô hình lên website. Kết quả đạt được như sau.\\
+		
+	\begin{figure}[h!]
+		\centering
+		\begin{subfigure}[b]{0.8\linewidth}
+			\includegraphics[width=\linewidth]{./images/web3.png}
+		\end{subfigure}
+		\caption{Trang chủ website \href{https://skincancer.svute.com}{skincancer.svute.com}.}
+		\label{fig:web1}
+	\end{figure}
+	
+	\begin{figure}[h!]
+		\centering
+		\begin{subfigure}[b]{0.4\linewidth}
+			\includegraphics[width=\linewidth]{./images/web1.png}
+			\caption{Nhận diện realtime qua Camera.}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.4\linewidth}
+			\includegraphics[width=\linewidth]{./images/web2.png}
+			\caption{Nhận diện qua hình ảnh.}
+		\end{subfigure}
+		\caption{Kết quả của mô hình.}
+		\label{fig:web2}
+	\end{figure}
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
 	\section{Kết luận}
-	Qua những kết quả trên tôi đưa ra kết luận cho bài báo này như sau, về cơ bản tôi đã xây dựng được mô hình sử dụng các lớp mạng CNN để phân loại mô hình, với tôi là một người chưa có nhiều kinh nghiệm vì thế mạng tôi xây dựng ra chưa đạt kết quả như mong đợi. Nếu có cơ hội được cải tiến đề tài này tôi có thể sử dụng một vài mạng được pretrained để nhằm mục đích trích xuất các đặc trưng của hình ảnh tốt hơn và cho kết quả nhận diện tốt hơn hiện tại.\\
+	Qua những kết quả trên tôi đưa ra kết luận cho bài báo này như sau, về cơ bản tôi đã xây dựng được mô hình sử dụng các lớp mạng CNN để phân loại mô hình, với tôi là một người chưa có nhiều kinh nghiệm vì thế mạng tôi xây dựng ra chưa đạt kết quả như mong đợi. Nếu có cơ hội được cải tiến đề tài này tôi có thể sử dụng một vài mạng được pretrained để nhằm mục đích trích xuất các đặc trưng của hình ảnh tốt hơn và cho kết quả nhận diện tốt hơn hiện tại. Và bên cạnh đó tôi muốn tìm hiểu thêm về nhiều phương pháp giảm mất cân bằng dữ liệu.\\
 	
 	\noindent
 	Bên cạnh đó tôi đã triển khai được hệ thống nhận diện lâm sàng trực tuyến thông qua Website tại địa chỉ: \href{https://skincancer.svute.com}{https://skincancer.svute.com} tuy kết quả mô hình chưa được tốt nhưng sản phẩm có thể sử dụng ở mức độ tham khảo.
+	
+	\section*{Lời cảm ơn}
+	Với vai trò là tác giả bài báo này tôi muốn gửi lời cảm ơn đến PGS. TS. Nguyễn Trường Thịnh phụ trách môn học "Trí tuệ nhân tạo" của tôi tại trường đã hỗ trợ kiến thức nền cho tôi để có thể hoàn thành đề tài này. Dù rằng đề tài chưa được hoàn thiện nhưng tôi sẽ tiếp tục phát triển thêm cho đề tài này.
+	
+	\section*{Tài liệu tham khảo}
+	[1] K SCOTT MADER, "Skin Cancer MNIST: HAM10000 dataset", 2018, [TÀI LIỆU ONLINE]\\ https://www.kaggle.com/datasets/kmader/skin-cancer-mnist-ham10000\\
+	\noindent
+	[2] V.M Thien, L.M Hung, T.K Tam, T.V Lang, "Xử lý mất cân bằng dữ liệu trong phân loại tổn thương da trên ảnh soi da", 2020, DOI: 10.15625/vap.2020.00238\\
+	\noindent
+	[3] Tareq Tayeh, "Skin Lesion Classification using Convolutional Neural Networks", 2020.\\
+	\noindent
+	[4] Nguyen Chien Thang (MIAI), "Có ít dữ liệu, làm sao train model? – Chương 1. Data Augment cho ảnh", 2019. [TÀI LIỆU ONLINE]\\
+	https://www.miai.vn/2019/12/24/co-it-du-lieu-lam-sao-train-model-chuong-1-data-augment/\\
+	
+	\noindent
+	\rule{\textwidth}{0.4pt}
 \end{document}
